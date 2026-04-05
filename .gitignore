@@ -1,0 +1,18 @@
+# Java
+target/
+
+# IDE
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Local config (secrets)
+application-local.properties
+
+# Env
+.env
+
+# OS
+.DS_Store
