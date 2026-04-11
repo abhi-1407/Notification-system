@@ -1,6 +1,6 @@
 package com.abhilash.notifications.api.service;
 
-import com.abhilash.notifications.api.entity.Notification;
+import com.abhilash.notifications.api.entity.NotificationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 public class KafkaConsumerService {
 
     private final NotificationAsyncService asyncService;
-    @KafkaListener(topics = "notifications", groupId = "notification-group")
-    public void consume(Notification notification) {
-        System.out.println("📩 Received from Kafka: " + notification.getId());
-        asyncService.sendNotification(notification);
+
+    @KafkaListener(topics = "notifications", groupId = "debug-group")
+    public void consume(NotificationEvent event) {
+        System.out.println("Received from Kafka: " + event.getId());
+        asyncService.sendNotification(event);
     }
 }

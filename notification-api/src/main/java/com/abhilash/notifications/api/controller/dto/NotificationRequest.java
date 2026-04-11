@@ -22,6 +22,6 @@ public class NotificationRequest {
         private String payload;
 
         private String email;
-
+        private String phoneNumber;
         private String idempotencyKey;
 }

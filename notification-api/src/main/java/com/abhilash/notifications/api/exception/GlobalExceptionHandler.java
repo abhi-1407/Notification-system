@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // ✅ Handle custom "not found" exception
     @ExceptionHandler(NotificationNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotificationNotFound(
             NotificationNotFoundException ex) {
@@ -27,7 +26,6 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // ✅ Handle Spring's ResponseStatusException (optional but useful)
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErrorResponse> handleResponseStatusException(
             ResponseStatusException ex) {
@@ -43,7 +41,6 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // ✅ Handle validation errors (very important)
     @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(
             org.springframework.web.bind.MethodArgumentNotValidException ex) {
@@ -66,7 +63,6 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // ✅ Catch-all (fallback)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {
 

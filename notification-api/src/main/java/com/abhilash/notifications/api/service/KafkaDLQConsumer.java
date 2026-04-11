@@ -9,6 +9,6 @@ public class KafkaDLQConsumer {
 
     @KafkaListener(topics = "notifications-dlq", groupId = "dlq-group")
     public void consume(Notification notification) {
-        System.out.println("💀 DLQ MESSAGE: " + notification.getId());
+        System.out.println("DLQ MESSAGE: " + notification.getId());
     }
 }

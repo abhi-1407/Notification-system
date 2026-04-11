@@ -1,4 +1,9 @@
-# Java
+# Secrets
+*.env
+application-local.properties
+**/firebase-service-account.json
+
+# Build
 target/
 
 # IDE
@@ -7,10 +12,6 @@ target/
 
 # Logs
 *.log
-
-# Local config (secrets)
-application-local.properties
-
 # Env
 .env
 

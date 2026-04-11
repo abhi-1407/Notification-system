@@ -19,7 +19,6 @@ public class AiService {
 
     public String generateMessage(String event, String userName) {
         try {
-            // 🔥 Better prompt (short + engaging)
             String prompt = "Generate a short (max 15 words), engaging push notification for event: "
                     + event + " for user " + userName + ". Add emojis if relevant.";
 
@@ -62,7 +61,64 @@ public class AiService {
         }
     }
 
+    public String decideChannel(String type, String email, String phoneNumber) {
+
+        try {
+            String prompt = """
+        You are a notification routing AI.
+
+        Decide the best channel: EMAIL, SMS, or PUSH.
+
+        Rules:
+        - URGENT → prefer SMS
+        - If phone not available → avoid SMS
+        - If email available → prefer EMAIL
+        - Otherwise → PUSH
+
+        Input:
+        type=%s
+        email=%s
+        phone=%s
+
+        Output ONLY one word: EMAIL or SMS or PUSH
+        """.formatted(type, email, phoneNumber);
+
+            Map<String, Object> body = new HashMap<>();
+            body.put("model", "gpt-4o-mini");
+
+            List<Map<String, String>> messages = new ArrayList<>();
+            messages.add(Map.of("role", "user", "content", prompt));
+            body.put("messages", messages);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(apiKey);
+
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+
+            ResponseEntity<Map> response =
+                    restTemplate.postForEntity(API_URL, request, Map.class);
+
+            Map responseBody = response.getBody();
+
+            List<Map<String, Object>> choices =
+                    (List<Map<String, Object>>) responseBody.get("choices");
+
+            if (choices == null || choices.isEmpty()) {
+                return "EMAIL"; // fallback
+            }
+
+            Map<String, Object> message =
+                    (Map<String, Object>) choices.get(0).get("message");
+
+            return message.get("content").toString().trim().toUpperCase();
+
+        } catch (Exception e) {
+            return "EMAIL"; // safe fallback
+        }
+    }
+
     private String fallback(String event, String userName) {
-        return "Hey " + userName + ", " + event + " 🚀";
+        return "Hey " + userName + ", " + event ;
     }
 }

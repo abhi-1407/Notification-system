@@ -20,7 +20,7 @@ public class PushChannel implements NotificationChannel {
                     .setToken(token)
                     .setNotification(
                             Notification.builder()
-                                    .setTitle("🔔 Notification")
+                                    .setTitle("Notification")
                                     .setBody(messageBody)
                                     .build()
                     )
