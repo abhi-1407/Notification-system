@@ -28,8 +28,9 @@ public class NotificationController {
     public ResponseEntity<NotificationResponse> create(
             @RequestBody @Valid NotificationRequest request) {
 
+        log.info("Incoming notification request: {}", request);
+
         Notification notification = notificationService.create(request);
-        System.out.println("QALOGS " + notification);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(NotificationResponse.from(notification));
@@ -37,14 +38,25 @@ public class NotificationController {
 
     @GetMapping
     public ResponseEntity<List<NotificationResponse>> getAll() {
-        List<NotificationResponse> notifications = notificationService.getAll().stream().map(NotificationResponse::from).toList();
+
+        log.info("Fetching all notifications");
+
+        List<NotificationResponse> notifications =
+                notificationService.getAll()
+                        .stream()
+                        .map(NotificationResponse::from)
+                        .toList();
+
         return ResponseEntity.ok(notifications);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<NotificationResponse> getById(@PathVariable UUID id) {
+
+        log.info("Fetching notification by id: {}", id);
+
         Notification notification = notificationService.getById(id);
+
         return ResponseEntity.ok(NotificationResponse.from(notification));
     }
-
-    }
+}

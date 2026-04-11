@@ -45,11 +45,3 @@ services:
     # ✅ THIS IS WHERE .env GOES
     env_file:
       - .env
-
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/notifications
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
