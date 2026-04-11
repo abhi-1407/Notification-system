@@ -2,6 +2,7 @@ package com.abhilash.notifications.api.service;
 
 import com.abhilash.notifications.api.controller.dto.NotificationRequest;
 import com.abhilash.notifications.api.entity.Notification;
+import com.abhilash.notifications.api.exception.NotificationNotFoundException;
 import com.abhilash.notifications.api.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,8 +55,10 @@ public class NotificationService {
 
     public Notification getById(UUID id) {
         return notificationRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Notification not found"
-                ));
+                .orElseThrow(() ->
+                        new NotificationNotFoundException(
+                                "Notification not found with id: " + id
+                        )
+                );
     }
 }
